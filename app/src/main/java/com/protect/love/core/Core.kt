@@ -100,25 +100,29 @@ object Core {
             log("消息来了:$talker $type $content")
 //            val sendWxId = content.split(":")[0]
 //            val msg = content.split(":")[1]
-            // 判断是否守护
-            Core
-                .getDaoSession()
-                .openProtectUserDao
-                .queryBuilder()
-                .where(OpenProtectUserDao.Properties.WxId.eq(talker))
-                .unique()
-                ?.takeIf {
-                    it.isOpen
-                }
-                ?.apply {
-                    if (type == "1") {
-                        // TEXT 消息
-                        log("收到文本消息:$talker  $content")
-                        receiverMsg(activity.classLoader, "你好可爱哦", talker)
-                    } else {
-                        log("收到其他消息:$talker  $content")
+            // 判断是否启用自动回复
+            if (SharedPreferencesUtils.IS_AUTO_MSG){
+                // 判断是否守护
+                Core
+                    .getDaoSession()
+                    .openProtectUserDao
+                    .queryBuilder()
+                    .where(OpenProtectUserDao.Properties.WxId.eq(talker))
+                    .unique()
+                    ?.takeIf {
+                        it.isOpen
                     }
-                }
+                    ?.apply {
+                        if (type == "1") {
+                            // TEXT 消息
+                            log("收到文本消息:$talker  $content")
+                            receiverMsg(activity.classLoader, "你好可爱哦", talker)
+                        } else {
+                            log("收到其他消息:$talker  $content")
+                        }
+                    }
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }

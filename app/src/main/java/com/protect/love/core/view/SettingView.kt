@@ -43,6 +43,17 @@ class SettingBuild {
     private fun buildSettingItem(context: Activity): List<ViewItem> {
         return mutableListOf<ViewItem>().apply {
             add(TitleItem("图灵机器人开发者 Key 配置"))
+            add(SwitchItem("是否启用机器人回复", "关闭后就不使用机器人自动回复消息啦", SharedPreferencesUtils.IS_AUTO_MSG).apply {
+                onClickListener = View.OnClickListener {
+                    val switchButton = it as SwitchButton
+
+                    switchButton.toggle(true)
+
+                    SharedPreferencesUtils.IS_AUTO_MSG = switchButton.isChecked
+                }
+
+
+            })
             add(ClickItem("请配置图灵机器人 apikey 与 密钥", "图灵机器人账号申请，请搜索图灵机器人") { view ->
                 com.protect.love.xp.log("设置图key")
 

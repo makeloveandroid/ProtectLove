@@ -86,7 +86,11 @@ class ClickItem(title: String, subTitle: String, val click: (view: View) -> Unit
 
 
                 textView {
-                    text = subTitle
+                    if (subTitle.isNotBlank()) {
+                        text = subTitle
+                    } else {
+                        visibility = View.GONE
+                    }
                     textSize = 14f
                     textColor = Color.parseColor("#969696")
 
@@ -125,7 +129,7 @@ class ClickItem(title: String, subTitle: String, val click: (view: View) -> Unit
 }
 
 
-open  class SwitchItem(
+open class SwitchItem(
     title: String,
     subTitle: String,
     val isChecked: Boolean
@@ -154,7 +158,11 @@ open  class SwitchItem(
 
 
                 textView {
-                    text = subTitle
+                    if (subTitle.isNotBlank()) {
+                        text = subTitle
+                    } else {
+                        visibility = View.GONE
+                    }
                     textSize = 14f
                     textColor = Color.parseColor("#969696")
 

@@ -13,6 +13,8 @@ object SharedPreferencesUtils {
     }
 
 
+    var IS_AUTO_MSG by SharedPreferenceDelegates.boolean(true)
+
     var CITY_CODE by SharedPreferenceDelegates.string("")
 
     var CUSTOM_LOVE_MSG by SharedPreferenceDelegates.string("")
