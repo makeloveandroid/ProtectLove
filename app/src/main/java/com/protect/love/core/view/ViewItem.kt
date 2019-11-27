@@ -140,6 +140,13 @@ open class SwitchItem(
 
     var onClickListener: View.OnClickListener? = null
 
+    /**
+     * 条目点击事件的
+     */
+    var itemClickListener: View.OnClickListener? = null
+
+    var itemLongClickListener: View.OnLongClickListener? = null
+
     @SuppressLint("ResourceType")
     override fun createView(context: Context): View {
         return context.linearLayout {
@@ -204,6 +211,13 @@ open class SwitchItem(
                 setMargins(context.dp2i(ITEM_PADDING), 0, 0, 0)
                 width = LinearLayout.LayoutParams.MATCH_PARENT
                 height = context.dp2i(1f)
+            }
+        }.apply {
+            if (itemClickListener != null) {
+                setOnClickListener(itemClickListener)
+            }
+            if (itemLongClickListener != null) {
+                setOnLongClickListener(itemLongClickListener)
             }
         }
     }

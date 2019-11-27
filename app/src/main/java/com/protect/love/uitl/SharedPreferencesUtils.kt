@@ -15,9 +15,23 @@ object SharedPreferencesUtils {
 
     var IS_AUTO_MSG by SharedPreferenceDelegates.boolean(true)
 
+    /**
+     * 使用图灵机器人
+     */
+    var IS_USE_TU_LING by SharedPreferenceDelegates.boolean(false)
+
+    /**
+     * 使用小式机器人
+     */
+    var IS_USE_XIAO_SHI by SharedPreferenceDelegates.boolean(false)
+
     var CITY_CODE by SharedPreferenceDelegates.string("")
 
     var CUSTOM_LOVE_MSG by SharedPreferenceDelegates.string("")
+
+
+    var XIAO_SHI_ACCESS_KEY by SharedPreferenceDelegates.string("")
+    var TU_LING_ACCESS_KEY by SharedPreferenceDelegates.string("")
 
 
 }

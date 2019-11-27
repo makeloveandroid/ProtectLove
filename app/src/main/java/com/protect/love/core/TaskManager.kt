@@ -37,7 +37,6 @@ object TaskManager {
                         // 判断时间是否到了
                         val cd = Calendar.getInstance()
                         // 获取现在的时间 当前的系统时间 和 我设定的时间一直
-                        log("${it.name}  ${cd.get(Calendar.HOUR_OF_DAY)} ${cd.get(Calendar.MINUTE)}  ${it.hour}  ${it.minute}")
 
                         it.hour == cd.get(Calendar.HOUR_OF_DAY) && it.minute == cd.get(Calendar.MINUTE)
                     }

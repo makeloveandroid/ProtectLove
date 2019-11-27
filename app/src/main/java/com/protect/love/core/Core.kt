@@ -29,7 +29,10 @@ import android.R
 import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_BACK
 import android.widget.*
+import com.paradigm.botkit.BotKitClient
 import com.protect.love.core.extension.showSettingDialog
+import com.protect.love.core.robot.PDbootManager
+import com.protect.love.core.robot.TuLingManager
 import java.io.StringReader
 
 
@@ -83,6 +86,10 @@ object Core {
 
             // 重新初始化下定时
             CoreAlarmManager.init(activity)
+
+            // 初始化自动回复
+            PDbootManager.initConfig(activity)
+
         }
     }
 
@@ -97,11 +104,10 @@ object Core {
                 // 不守护群
                 return
             }
-            log("消息来了:$talker $type $content")
 //            val sendWxId = content.split(":")[0]
 //            val msg = content.split(":")[1]
             // 判断是否启用自动回复
-            if (SharedPreferencesUtils.IS_AUTO_MSG){
+            if (SharedPreferencesUtils.IS_AUTO_MSG) {
                 // 判断是否守护
                 Core
                     .getDaoSession()
@@ -116,7 +122,15 @@ object Core {
                         if (type == "1") {
                             // TEXT 消息
                             log("收到文本消息:$talker  $content")
-                            receiverMsg(activity.classLoader, "你好可爱哦", talker)
+
+                            if (SharedPreferencesUtils.IS_USE_XIAO_SHI) {
+                                log("使用小式机器人:$talker  $content")
+                                PDbootManager.sendMsg(content, talker)
+                            } else if (SharedPreferencesUtils.IS_USE_TU_LING) {
+                                log("使用图灵机器人:$talker  $content")
+                                TuLingManager.sendMsg(content, talker)
+                            }
+
                         } else {
                             log("收到其他消息:$talker  $content")
                         }
