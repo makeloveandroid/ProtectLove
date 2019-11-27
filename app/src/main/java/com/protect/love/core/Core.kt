@@ -29,6 +29,7 @@ import android.R
 import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_BACK
 import android.widget.*
+import com.protect.love.core.extension.showSettingDialog
 import java.io.StringReader
 
 
@@ -79,6 +80,9 @@ object Core {
             var db = dbHelper.writableDatabase
             // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
             daoSession = DaoMaster(db).newSession()
+
+            // 重新初始化下定时
+            CoreAlarmManager.init(activity)
         }
     }
 
@@ -110,7 +114,7 @@ object Core {
                     if (type == "1") {
                         // TEXT 消息
                         log("收到文本消息:$talker  $content")
-                        receiverMsg(activity, "你好可爱哦", talker)
+                        receiverMsg(activity.classLoader, "你好可爱哦", talker)
                     } else {
                         log("收到其他消息:$talker  $content")
                     }
@@ -123,10 +127,11 @@ object Core {
     /**
      * hook 发消息方法
      */
-    private fun receiverMsg(activity: Activity, msg: String, talker: String) {
-        val azClzz = XposedHelpers.findClass("com.tencent.mm.model.az", activity.classLoader)
+    fun receiverMsg(classLoader: ClassLoader, msg: String, talker: String) {
+        log("发送消息 $msg  $talker")
+        val azClzz = XposedHelpers.findClass("com.tencent.mm.model.az", classLoader)
         val obj = XposedHelpers.callStaticMethod(azClzz, "ZS")
-        val msgClzz = XposedHelpers.findClass("com.tencent.mm.modelmulti.h", activity.classLoader)
+        val msgClzz = XposedHelpers.findClass("com.tencent.mm.modelmulti.h", classLoader)
         XposedHelpers.callMethod(obj, "b", XposedHelpers.newInstance(msgClzz, talker, msg, 1))
     }
 
@@ -135,10 +140,8 @@ object Core {
      * 增加开关入口view
      */
     fun addClickView(layout: ViewGroup, cWxid: String) {
-        log("增加按钮")
         val tag = layout.tag
         if (tag == null) {
-            log("注入按钮")
             try {
                 layout
                     .getChildAt(0)
@@ -169,13 +172,6 @@ object Core {
                         )
                         layoutParams.setMargins(0, 0, context.dp2i(2f), 0)
                         layoutParams.gravity = Gravity.CENTER
-//                        val resId =
-//                            context.resources.getIdentifier("fts_setmode_voice_normal", "raw", context.packageName)
-//                        log("当前wxid:$wxid")
-//                        imageView.setImageResource(resId)
-//                        imageView.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN)
-//                        imageView.setBackgroundColor(Color.RED)
-
                         imageView.layoutParams = layoutParams
                         layout.tag = imageView
                         messangerLayout.addView(imageView)
@@ -194,7 +190,7 @@ object Core {
             icon.visibility = View.GONE
             return
         } else {
-            // 是群 咋就不守护了
+            // 不是群 咋就守护了
             icon.visibility = View.VISIBLE
         }
 
@@ -215,10 +211,6 @@ object Core {
 
             icon.parent.requestLayout()
         }
-
-
-
-
 
 
 
@@ -245,6 +237,18 @@ object Core {
                 (it as ImageView).imageBitmap = icon_open_shouhu
                 toast("开启守护此娇妻!")
             }
+        }
+
+        /**
+         * 长按进入设置
+         */
+        icon.setOnLongClickListener {
+            XposedHelpers.getObjectField(layout, "activity")?.let {
+                it as Activity
+            }?.apply {
+                showSettingDialog()
+            }
+            true
         }
     }
 

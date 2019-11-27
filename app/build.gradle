@@ -8,7 +8,7 @@ apply plugin: 'org.greenrobot.greendao'
 
 android {
     greendao {
-        schemaVersion 2
+        schemaVersion 4
         daoPackage 'com.protect.love.dao'
         targetGenDir 'src/main/java'
     }
@@ -50,4 +50,13 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'org.greenrobot:greendao:3.2.2' // add library
+
+
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+
+
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 }

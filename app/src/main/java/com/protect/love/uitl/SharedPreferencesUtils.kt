@@ -13,6 +13,11 @@ object SharedPreferencesUtils {
     }
 
 
+    var CITY_CODE by SharedPreferenceDelegates.string("")
+
+    var CUSTOM_LOVE_MSG by SharedPreferenceDelegates.string("")
+
+
 }
 
 

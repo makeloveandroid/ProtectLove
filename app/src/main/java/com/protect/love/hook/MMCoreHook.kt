@@ -11,6 +11,10 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 object MMCoreHook {
     fun hook(lpparam: XC_LoadPackage.LoadPackageParam) {
+        if (lpparam.packageName == MM_PKG) {
+            TestHook.hook(lpparam.classLoader)
+        }
+
         if (lpparam.packageName == MM_PKG && lpparam.processName == MM_PKG) {
             hookFun({}, {
                 val activity = it.thisObject as Activity
