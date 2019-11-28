@@ -93,7 +93,6 @@ object Core {
             PDbootManager.initConfig(activity)
             TuLingManager.initConfig(activity)
 
-            MMconfig.init(activity)
         }
     }
 
@@ -153,10 +152,14 @@ object Core {
      */
     fun receiverMsg(classLoader: ClassLoader, msg: String, talker: String) {
         log("发送消息 $msg  $talker")
-        val azClzz = XposedHelpers.findClass(MMconfig.netCore, classLoader)
-        val obj = XposedHelpers.callStaticMethod(azClzz, MMconfig.netMethod)
-        val msgClzz = XposedHelpers.findClass(MMconfig.msgClzz, classLoader)
-        XposedHelpers.callMethod(obj, MMconfig.netCoreMethod, XposedHelpers.newInstance(msgClzz, talker, msg, 1))
+        try {
+            val azClzz = XposedHelpers.findClass(MMconfig.netCore, classLoader)
+            val obj = XposedHelpers.callStaticMethod(azClzz, MMconfig.netMethod)
+            val msgClzz = XposedHelpers.findClass(MMconfig.msgClzz, classLoader)
+            XposedHelpers.callMethod(obj, MMconfig.netCoreMethod, XposedHelpers.newInstance(msgClzz, talker, msg, 1))
+        } catch (e: Exception) {
+            log("消息出错${e.message}")
+        }
     }
 
 

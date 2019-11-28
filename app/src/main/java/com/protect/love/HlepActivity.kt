@@ -110,7 +110,6 @@ class HelpAdapter(val items: List<HelpItem>) : PagerAdapter() {
     }
 
     override fun getCount(): Int {
-        log("长度:${items.size}")
         return items.size
     }
 
