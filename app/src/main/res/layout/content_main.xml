@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,12 +10,44 @@
         tools:context=".MainActivity">
 
     <TextView
+            android:id="@+id/title"
+            android:text="护妻宝,专注关怀你们的娇妻!"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/help"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/title"
+            android:text="点我查看使用介绍"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <ImageView
+            android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:id="@+id/btn_360"
+                android:text="360分身大师X版"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/btn_taiji"
+                android:text="太极分身X版"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+</RelativeLayout>

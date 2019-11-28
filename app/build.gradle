@@ -6,6 +6,56 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'org.greenrobot.greendao'
 
+
+apply plugin: 'QOptimize'
+
+
+QOptimizeConfig {
+    /**
+     * 总开关
+     */
+    enable true
+
+    /**
+     * debug 下是否可用，default true
+     */
+    enableWhenDebug true
+
+    /**
+     * 资源去重复配置
+     */
+    ClearRepeatResourcesConfig {
+        enable true
+        ignoreFileName = []
+    }
+
+    /**
+     * 图片压缩优化配置
+     */
+    OptimizeImgConfig {
+        enable true
+
+
+        //优化类型，可选"ConvertWebp"，"Compress"，转换为webp或原图压缩，默认Compress，使用ConvertWep需要min sdk >= 18.但是压缩效果更好
+        optimizeType "ConvertWebp"
+
+        //是否支持带有透明度的webp，default false,带有透明图的图片会进行压缩
+        supportAlphaWebp true
+
+        ignoreFileName = []
+    }
+
+
+    /**
+     * 资源混淆配置
+     */
+    ProguardResourcesConfig {
+        enable false
+        ignoreFileName = []
+    }
+}
+
+
 android {
     greendao {
         schemaVersion 4
@@ -59,6 +109,8 @@ dependencies {
 
     implementation 'com.facebook.stetho:stetho:1.5.1'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
 
     implementation 'com.paradigm:BotLib:2.+'
     implementation 'com.paradigm:BotKit:2.+'

@@ -1,27 +1,22 @@
 package com.protect.love
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import com.facebook.stetho.Stetho
 
 import kotlinx.android.synthetic.main.activity_main.*
-import com.google.gson.reflect.TypeToken
-import com.google.gson.Gson
-import com.protect.love.bean.CityIdBean
-import com.protect.love.core.Core
-import com.protect.love.core.LoveMsgRetrofit
-import com.protect.love.core.TodayWeatherRetrofit
-import com.protect.love.core.robot.TuLingManager
-import com.protect.love.core.robot.TuLingMsg
-import com.protect.love.core.robot.TuLingMsgRetrofit
-import com.protect.love.uitl.SharedPreferencesUtils
-import com.protect.love.xp.log
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.File
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.startActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,41 +27,42 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         Stetho.initializeWithDefaults(this)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//            try {
-//                val string = String(assets.open("city.json").readBytes())
-//
-//                val type = object : TypeToken<List<CityIdBean>>() {
-//
-//                }.type
-//                val reslut: List<CityIdBean> = Gson().fromJson(string, type)
-//                log("得到结果:$reslut")
-//
-//                log("re:${Gson().toJson(reslut)}")
-//                val s = "$externalCacheDir/city.json"
-//                log("路径:$s")
-//                File(s).writeBytes(Gson().toJson(reslut).toByteArray())
-//
-//            } catch (e: Exception) {
-//            }
-
-            GlobalScope.launch {
-
-                try {
-                    val msgResult =
-                        TuLingMsgRetrofit.api.getMsg(TuLingMsg("a1e5644503884ff584faa4e0157721bf", "我喜欢你"))
-                    log("$msgResult")
-
-                } catch (e: Exception) {
-                    log("图灵出错:${e.message}")
-                }
-            }
-
+            openWebView("https://github.com/makeloveandroid/ProtectLove")
         }
 
+        initView()
 
     }
+
+    private fun openWebView(url:String) {
+        val intent = Intent()
+        intent.action = "android.intent.action.VIEW"
+        val content_url = Uri.parse(url)
+        intent.data = content_url
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
+
+    private fun initView() {
+        Glide.with(this).load(R.drawable.gif_icon).into(image)
+        btn_360.setOnClickListener {
+
+            openWebView("https://a.app.qq.com/o/simple.jsp?pkgname=com.qihoo.magic.xposed")
+        }
+
+        btn_taiji.setOnClickListener {
+            openWebView("https://taichi.cool/README_CN.html")
+        }
+
+        help.setOnClickListener {
+            Intent(applicationContext,HlepActivity::class.java).apply {
+                startActivity(this)
+            }
+        }
+
+    }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
