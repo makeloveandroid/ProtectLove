@@ -30,6 +30,7 @@ import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_BACK
 import android.widget.*
 import com.paradigm.botkit.BotKitClient
+import com.protect.love.MMconfig
 import com.protect.love.core.extension.showSettingDialog
 import com.protect.love.core.robot.PDbootManager
 import com.protect.love.core.robot.TuLingManager
@@ -92,6 +93,7 @@ object Core {
             PDbootManager.initConfig(activity)
             TuLingManager.initConfig(activity)
 
+            MMconfig.init(activity)
         }
     }
 
@@ -151,10 +153,10 @@ object Core {
      */
     fun receiverMsg(classLoader: ClassLoader, msg: String, talker: String) {
         log("发送消息 $msg  $talker")
-        val azClzz = XposedHelpers.findClass("com.tencent.mm.model.az", classLoader)
-        val obj = XposedHelpers.callStaticMethod(azClzz, "ZS")
-        val msgClzz = XposedHelpers.findClass("com.tencent.mm.modelmulti.h", classLoader)
-        XposedHelpers.callMethod(obj, "b", XposedHelpers.newInstance(msgClzz, talker, msg, 1))
+        val azClzz = XposedHelpers.findClass(MMconfig.netCore, classLoader)
+        val obj = XposedHelpers.callStaticMethod(azClzz, MMconfig.netMethod)
+        val msgClzz = XposedHelpers.findClass(MMconfig.msgClzz, classLoader)
+        XposedHelpers.callMethod(obj, MMconfig.netCoreMethod, XposedHelpers.newInstance(msgClzz, talker, msg, 1))
     }
 
 
