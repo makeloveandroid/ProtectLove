@@ -10,6 +10,15 @@ apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'QOptimize'
 
 
+/**
+ * andorid 资源优化插件
+ * 资源去重复
+ *
+ * 资源图片压缩
+ * 资源混淆
+ *
+ * https://github.com/makeloveandroid/Optimizeapp
+ */
 QOptimizeConfig {
     /**
      * 总开关
