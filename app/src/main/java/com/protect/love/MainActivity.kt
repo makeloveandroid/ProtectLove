@@ -11,8 +11,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import com.google.gson.reflect.TypeToken
 import com.google.gson.Gson
 import com.protect.love.bean.CityIdBean
+import com.protect.love.core.Core
 import com.protect.love.core.LoveMsgRetrofit
 import com.protect.love.core.TodayWeatherRetrofit
+import com.protect.love.core.robot.TuLingManager
+import com.protect.love.core.robot.TuLingMsg
+import com.protect.love.core.robot.TuLingMsgRetrofit
+import com.protect.love.uitl.SharedPreferencesUtils
 import com.protect.love.xp.log
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -47,12 +52,16 @@ class MainActivity : AppCompatActivity() {
 //            }
 
             GlobalScope.launch {
-                val loveMsg = LoveMsgRetrofit.api.getLoveMsg()
-                log("得到结果:${loveMsg.string()}")
 
+                try {
+                    val msgResult =
+                        TuLingMsgRetrofit.api.getMsg(TuLingMsg("a1e5644503884ff584faa4e0157721bf", "我喜欢你"))
+                    log("$msgResult")
 
+                } catch (e: Exception) {
+                    log("图灵出错:${e.message}")
+                }
             }
-
 
         }
 

@@ -33,6 +33,7 @@ import com.paradigm.botkit.BotKitClient
 import com.protect.love.core.extension.showSettingDialog
 import com.protect.love.core.robot.PDbootManager
 import com.protect.love.core.robot.TuLingManager
+import kotlinx.coroutines.launch
 import java.io.StringReader
 
 
@@ -89,6 +90,7 @@ object Core {
 
             // 初始化自动回复
             PDbootManager.initConfig(activity)
+            TuLingManager.initConfig(activity)
 
         }
     }
@@ -122,15 +124,17 @@ object Core {
                         if (type == "1") {
                             // TEXT 消息
                             log("收到文本消息:$talker  $content")
+                            if (SharedPreferencesUtils.IS_USE_TU_LING) {
+                                TuLingManager.sendMsg(content, talker) {
+                                    // 如果图灵失败,尝试用小式机器人
 
-                            if (SharedPreferencesUtils.IS_USE_XIAO_SHI) {
-                                log("使用小式机器人:$talker  $content")
+                                    if (!it && SharedPreferencesUtils.IS_USE_XIAO_SHI) {
+                                        PDbootManager.sendMsg(content, talker)
+                                    }
+                                }
+                            } else if (SharedPreferencesUtils.IS_USE_XIAO_SHI) {
                                 PDbootManager.sendMsg(content, talker)
-                            } else if (SharedPreferencesUtils.IS_USE_TU_LING) {
-                                log("使用图灵机器人:$talker  $content")
-                                TuLingManager.sendMsg(content, talker)
                             }
-
                         } else {
                             log("收到其他消息:$talker  $content")
                         }
@@ -272,8 +276,9 @@ object Core {
 
 
     fun toast(msg: String) {
-        launcherAc?.toast(msg)
-        log("消息:$msg")
+        mainScope.launch {
+            launcherAc?.toast(msg)
+        }
     }
 }
 

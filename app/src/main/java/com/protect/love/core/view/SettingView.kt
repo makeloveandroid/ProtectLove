@@ -108,18 +108,25 @@ class SettingBuild {
 
                     itemLongClickListener = View.OnLongClickListener {
                         com.protect.love.xp.log("进入小式机器人")
-                        Intent().apply {
-                            putExtra("rawUrl", "https://bot.4paradigm.com/admin/home/index")
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                            component = ComponentName(
-                                "com.tencent.mm",
-                                "com.tencent.mm.plugin.webview.ui.tools.WebViewUI"
-                            )
+//                        Intent().apply {
+//                            putExtra("rawUrl", "https://bot.4paradigm.com/admin/home/index")
+//                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                            component = ComponentName(
+//                                "com.tencent.mm",
+//                                "com.tencent.mm.plugin.webview.ui.tools.WebViewUI"
+//                            )
+//
+//                        }.apply {
+//                            context.startActivity(this)
+//                        }
 
-                        }.apply {
-                            context.startActivity(this)
-                        }
 
+                        val intent = Intent()
+                        intent.action = "android.intent.action.VIEW"
+                        val content_url = Uri.parse("https://bot.4paradigm.com/admin/home/index")
+                        intent.data = content_url
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        context.startActivity(intent)
                         true
                     }
 
