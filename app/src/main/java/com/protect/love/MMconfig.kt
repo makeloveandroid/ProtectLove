@@ -16,7 +16,7 @@ object MMconfig {
     fun init(context: Context, block: (Boolean) -> Unit) {
         val info = context.packageManager.getPackageInfo(context.packageName, 0)
         val versionName = info.versionName
-        log("微信版本:$versionName")
+        log("微信版本:$versionName  ${info.versionCode}")
         this.versionName = versionName
         when (versionName) {
             "7.0.9" -> {
