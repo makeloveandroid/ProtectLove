@@ -18,7 +18,9 @@ import com.protect.love.xp.log
 import java.util.*
 import androidx.core.content.ContextCompat.getSystemService
 
-
+/**
+ * 定时检查任务 15秒一次
+ */
 object CoreAlarmManager {
     var handler: Handler
     var classLoader: ClassLoader? = null

@@ -41,6 +41,7 @@ object PDbootManager : BotLibClient.MessageListener, BotLibClient.ConnectionList
         if (message.direction == 1) {
             // 接收到消息
             try {
+                // 去除回馈id
                 val wxid = msgTask.poll()
                 // 判断逻辑
                 if (wxid?.isNotBlank() == true && classLoader != null && message.contentType == Message.ContentTypeText) {
@@ -69,7 +70,6 @@ object PDbootManager : BotLibClient.MessageListener, BotLibClient.ConnectionList
         }
     }
 
-
     init {
         BotKitClient.getInstance().setMessageListener(this)
         BotKitClient.getInstance().setConnectionListener(this)
@@ -77,11 +77,11 @@ object PDbootManager : BotLibClient.MessageListener, BotLibClient.ConnectionList
 
 
     fun sendMsg(msg: String, talker: String) {
-        log("像机器人发送  $msg  $talker")
+        // 加入回馈队列
         msgTask.add(talker)
+
         BotKitClient.getInstance().askQuestion(msg)
     }
-
 
 }
 

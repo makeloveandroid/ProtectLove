@@ -82,7 +82,7 @@ fun Activity.showTimePickerDialog(h:Int,m:Int,block: (Boolean, Int, Int) -> Unit
     val timePickerDialog =
         TimePickerDialog(this, 5, { timePicker: TimePicker, h: Int, m: Int ->
             block(false, h, m)
-        }, h, m, true)
+        }, h, m, false)
     timePickerDialog.setOnCancelListener {
         block(true, 0, 0)
     }
