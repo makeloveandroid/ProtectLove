@@ -156,7 +156,20 @@ object Core {
             val azClzz = XposedHelpers.findClass(MMconfig.netCore, classLoader)
             val obj = XposedHelpers.callStaticMethod(azClzz, MMconfig.netMethod)
             val msgClzz = XposedHelpers.findClass(MMconfig.msgClzz, classLoader)
-            XposedHelpers.callMethod(obj, MMconfig.netCoreMethod, XposedHelpers.newInstance(msgClzz, talker, msg, 1))
+            // 兼容 7.0.9
+            if (MMconfig.versionName == "7.0.9") {
+                XposedHelpers.callMethod(
+                    obj,
+                    MMconfig.netCoreMethod,
+                    XposedHelpers.newInstance(msgClzz, talker, msg, 1, 0)
+                )
+            } else {
+                XposedHelpers.callMethod(
+                    obj,
+                    MMconfig.netCoreMethod,
+                    XposedHelpers.newInstance(msgClzz, talker, msg, 1)
+                )
+            }
         } catch (e: Exception) {
             log("消息出错${e.message}")
         }
